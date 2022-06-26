@@ -15,13 +15,13 @@ import java.math.BigDecimal;
 public class ServicoEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer idServico;
 
-    @Column(name = "descricao")
+    @Column(name = "descricao", nullable = false)
     private String descricao;
 
-    @Column(name = "valor")
+    @Column(name = "valor", nullable = false)
     private BigDecimal valor;
 }

@@ -1,6 +1,8 @@
 package com.projeto.sistema.agendamento.model.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -16,6 +18,6 @@ public class StatusEntity {
     @Column(name = "id")
     private Integer idStatus;
 
-    @Column(name = "descricao")
+    @Column(name = "descricao", nullable = false)
     private String descricao;
 }

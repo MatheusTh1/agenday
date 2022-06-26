@@ -5,9 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 @Data
 @Entity
@@ -21,12 +18,10 @@ public class BarbeiroEntity {
     @Column(name = "id")
     private Integer idBarbeiro;
 
-    @Column(name = "nome")
+    @Column(name = "nome", nullable = false)
     private String nome;
 
-    @Column(name = "cpf")
+    @Column(name = "cpf", unique = true)
     private String cpf;
 
-    @OneToMany(mappedBy="barbeiroEntity")
-    private List<AgendaEntity> agendaEntity = new ArrayList<AgendaEntity>();
 }

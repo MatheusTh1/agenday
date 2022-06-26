@@ -1,45 +1,62 @@
 package com.projeto.sistema.agendamento.service;
 
-import com.projeto.sistema.agendamento.model.dto.Status;
+import com.projeto.sistema.agendamento.exception.ResourceNoContentException;
+import com.projeto.sistema.agendamento.mapper.StatusMapper;
 import com.projeto.sistema.agendamento.model.dto.StatusDTO;
 import com.projeto.sistema.agendamento.model.entity.StatusEntity;
 import com.projeto.sistema.agendamento.repository.StatusRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import static java.util.Objects.isNull;
 
 @RestController
+@RequiredArgsConstructor
 public class StatusService {
 
     @Autowired
     private StatusRepository statusRepository;
 
-    public List<Status> listarTodos() {
+    private final StatusMapper mapper;
+
+    public List<StatusDTO> listar() {
         List<StatusEntity> lstStatusEntity = statusRepository.findAll();
-        List<Status> lststatusDTO = new ArrayList<>();
-
-        for(StatusEntity status : lstStatusEntity) {
-            Status response = new Status();
-
-            response.setId(status.getIdStatus());
-            response.setDescricao(status.getDescricao());
-
-            lststatusDTO.add(response);
-        }
-
-        return lststatusDTO;
-
+        return mapper.toStatusResponseList(lstStatusEntity);
     }
 
     public StatusDTO salvar(StatusDTO statusDTO) {
-                StatusEntity statusEntity = new StatusEntity();
+        if(isNull(statusRepository.findByDescricao(statusDTO.getDescricao()))) {
+            StatusEntity statusEntity = mapper.toStatusEntity(statusDTO);
 
-        statusEntity.setDescricao(statusDTO.getDescricao());
+            statusRepository.save(statusEntity);
+            return mapper.toStatusResponse(statusEntity);
+        };
 
-        statusRepository.save(statusEntity);
+        throw new ResourceNoContentException("Status ["+ statusDTO.getDescricao() + "] Já existente!");
+    }
 
-        return statusDTO;
+    public StatusDTO atualizar(StatusDTO statusDTO, Integer id) {
+        verificarSeExisteStatus(id);
+
+        statusRepository.save(new StatusEntity(id, statusDTO.getDescricao()));
+        return mapper.toStatusResponse(new StatusEntity(id, statusDTO.getDescricao()));
+    }
+
+    public void excluir(Integer id) {
+        verificarSeExisteStatus(id);
+
+        statusRepository.deleteById(id);
+    }
+
+    private void verificarSeExisteStatus(Integer id) {
+        Optional<StatusEntity> status = statusRepository.findById(id);
+
+        if(!status.isPresent()) {
+            throw new ResourceNoContentException("Status não encontrado: [ " + id + " ]");
+        }
     }
 }

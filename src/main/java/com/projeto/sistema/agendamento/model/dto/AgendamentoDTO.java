@@ -7,8 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class StatusDTO {
+public class AgendamentoDTO {
 
-    private Integer id;
-    private String descricao;
+    private Integer idAgenda;
+    private Integer idBarbeiro;
+    private Integer idCliente;
+    private Integer idServico;
 }

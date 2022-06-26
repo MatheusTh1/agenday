@@ -33,4 +33,8 @@ public class AgendaEntity {
     @ManyToOne
     @JoinColumn(name = "idBarbeiro")
     private BarbeiroEntity barbeiroEntity;
+
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "idServico")
+    private ServicoEntity servicoEntity;
 }
