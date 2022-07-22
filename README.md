@@ -23,7 +23,9 @@ O projeto está na versão 1.0 ainda, contando apenas com o back-end. Desenvolve
 <br>Nossa aplicação não possui site na versão 1.0, apenas um [Aplicativo Mobile.]("passar aqui a URL da app store e google play store.")
 </h3>
 <br>
+
 ### *Protótipo - versão 1.0*
+
 ![Agenday](https://user-images.githubusercontent.com/79847279/180571351-c8e44f7e-2246-4fb5-936d-d47524aeefcc.png)
 
 ### *Funcionalidades do projeto - versão 1.0*
